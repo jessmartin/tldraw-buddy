@@ -12,7 +12,18 @@ Claude manipulates shapes on a tldraw canvas running in your browser. You both s
 
 ## Install
 
-### Option A: Clone (recommended — easy to update)
+### Option A: Claude Code plugin (recommended)
+
+Install directly from GitHub as a Claude Code plugin:
+
+```bash
+claude plugin marketplace add sociotechnica-org/tldraw-claude --scope user
+claude plugin install tldraw-claude@sociotechnica --scope user
+```
+
+This registers the plugin marketplace from the GitHub repo and installs the plugin. Use `--scope project` instead to install for a single project.
+
+### Option B: Git clone + MCP config
 
 ```bash
 git clone https://github.com/sociotechnica-org/tldraw-claude.git ~/.tldraw-claude
@@ -20,42 +31,25 @@ cd ~/.tldraw-claude
 ./setup
 ```
 
-### Option B: Install anywhere
-
-```bash
-git clone https://github.com/sociotechnica-org/tldraw-claude.git /path/to/tldraw-claude
-cd /path/to/tldraw-claude
-./setup
-```
-
-### Prerequisites
-
-- [Bun](https://bun.sh) runtime
-- [Claude Code](https://claude.ai/code) CLI
-
-### Configure Claude Code
-
-Add the MCP server to your project's `.mcp.json`:
+Then add the MCP server to your project's `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "tldraw": {
       "command": "bun",
-      "args": ["/path/to/tldraw-claude/src/mcp-server.ts"]
+      "args": ["/Users/you/.tldraw-claude/src/mcp-server.ts"]
     }
   }
 }
 ```
 
-Replace `/path/to/tldraw-claude` with the actual install path (e.g., `~/.tldraw-claude`).
+Replace the path with wherever you cloned the repo.
 
-Or register as a Claude Code plugin:
+### Prerequisites
 
-```bash
-claude plugin marketplace add /path/to/tldraw-claude --scope project
-claude plugin install tldraw-claude@sociotechnica --scope project
-```
+- [Bun](https://bun.sh) runtime
+- [Claude Code](https://claude.ai/code) CLI
 
 ## Usage
 
@@ -79,18 +73,13 @@ Ask Claude to draw something:
 
 ## Updating
 
-Since tldraw-claude is installed via git clone, updating is a pull:
+**Plugin install:** If you installed with `claude plugin marketplace add`, updates pull automatically when Claude Code starts (with `autoUpdate: true`, the default).
+
+**Git clone:** Pull and re-run setup:
 
 ```bash
-cd ~/.tldraw-claude   # or wherever you cloned it
+cd ~/.tldraw-claude
 git pull
-./setup               # reinstall deps if they changed
-```
-
-To pin a specific version:
-
-```bash
-git checkout v0.1.0
 ./setup
 ```
 
