@@ -1,12 +1,12 @@
 {
-  "name": "tldraw-claude",
+  "name": "tldraw-buddy",
   "version": "0.1.0",
   "description": "Claude Code plugin for collaborative tldraw canvas",
   "license": "MIT",
   "scripts": {
-    "start": "./bin/tldraw-claude start",
-    "stop": "./bin/tldraw-claude stop",
-    "status": "./bin/tldraw-claude status"
+    "start": "./bin/tldraw-buddy start",
+    "stop": "./bin/tldraw-buddy stop",
+    "status": "./bin/tldraw-buddy status"
   },
   "type": "module"
 }

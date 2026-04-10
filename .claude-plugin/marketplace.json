@@ -2,7 +2,7 @@
   "name": "sociotechnica",
   "plugins": [
     {
-      "name": "tldraw-claude",
+      "name": "tldraw-buddy",
       "description": "Collaborative tldraw canvas for Claude Code",
       "source": ".",
       "category": "tools"

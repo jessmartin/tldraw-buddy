@@ -1,17 +1,17 @@
 #!/usr/bin/env bun
 /**
- * tldraw-claude CLI — canvas manipulation commands.
+ * tldraw-buddy CLI — canvas manipulation commands.
  *
  * Each invocation connects to the WebSocket relay, sends a command,
  * prints the response, and exits. No persistent process needed.
  *
  * Usage:
- *   tldraw-claude snapshot
- *   tldraw-claude create --type geo --geo rectangle --x 100 --y 200 --text Hello
- *   tldraw-claude update --id shape:abc --text "New label"
- *   tldraw-claude delete shape:abc shape:def
- *   tldraw-claude connect --from shape:abc --to shape:def --label "yes"
- *   tldraw-claude clear
+ *   tldraw-buddy snapshot
+ *   tldraw-buddy create --type geo --geo rectangle --x 100 --y 200 --text Hello
+ *   tldraw-buddy update --id shape:abc --text "New label"
+ *   tldraw-buddy delete shape:abc shape:def
+ *   tldraw-buddy connect --from shape:abc --to shape:def --label "yes"
+ *   tldraw-buddy clear
  */
 
 const WS_URL = 'ws://localhost:4000'
@@ -51,7 +51,7 @@ async function sendCommand(type: string, params: Record<string, unknown> = {}): 
 		const timer = setTimeout(() => {
 			reject(new Error(
 				'Timed out connecting to tldraw widget.\n' +
-				'Make sure the canvas is running: tldraw-claude start'
+				'Make sure the canvas is running: tldraw-buddy start'
 			))
 		}, TIMEOUT)
 
@@ -61,7 +61,7 @@ async function sendCommand(type: string, params: Record<string, unknown> = {}): 
 			clearTimeout(timer)
 			reject(new Error(
 				'Could not connect to tldraw widget on ws://localhost:4000.\n' +
-				'Start the canvas first: tldraw-claude start'
+				'Start the canvas first: tldraw-buddy start'
 			))
 		}
 
@@ -132,7 +132,7 @@ async function main() {
 
 		case 'update': {
 			if (!flags.id) {
-				console.error('Usage: tldraw-claude update --id <shape-id> [--x N] [--y N] [--text "..."] ...')
+				console.error('Usage: tldraw-buddy update --id <shape-id> [--x N] [--y N] [--text "..."] ...')
 				process.exit(1)
 			}
 			const params: Record<string, unknown> = { id: flags.id }
@@ -156,7 +156,7 @@ async function main() {
 		case 'delete': {
 			const ids = positionals
 			if (ids.length === 0) {
-				console.error('Usage: tldraw-claude delete <shape-id> [shape-id ...]')
+				console.error('Usage: tldraw-buddy delete <shape-id> [shape-id ...]')
 				process.exit(1)
 			}
 			const result = await sendCommand('delete_shapes', { ids })
@@ -170,7 +170,7 @@ async function main() {
 
 		case 'connect': {
 			if (!flags.from || !flags.to) {
-				console.error('Usage: tldraw-claude connect --from <id> --to <id> [--label "..."] [--color ...]')
+				console.error('Usage: tldraw-buddy connect --from <id> --to <id> [--label "..."] [--color ...]')
 				process.exit(1)
 			}
 			const params: Record<string, unknown> = {
@@ -213,7 +213,7 @@ async function main() {
 		case 'load': {
 			const filePath = positionals[0]
 			if (!filePath) {
-				console.error('Usage: tldraw-claude load <file.tldr>')
+				console.error('Usage: tldraw-buddy load <file.tldr>')
 				process.exit(1)
 			}
 			const file = Bun.file(filePath)
@@ -233,7 +233,7 @@ async function main() {
 
 		case 'help':
 		default:
-			console.log(`tldraw-claude — shared canvas CLI
+			console.log(`tldraw-buddy — shared canvas CLI
 
 Canvas commands:
   snapshot                          List all shapes on canvas
@@ -248,7 +248,7 @@ Canvas commands:
   save [file.tldr]                  Save canvas to disk (default: canvas.tldr)
   load <file.tldr>                  Load canvas from disk
 
-Service commands (via bin/tldraw-claude):
+Service commands (via bin/tldraw-buddy):
   start                             Start widget + WS relay
   stop                              Stop services
   status                            Check service status

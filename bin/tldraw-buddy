@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# tldraw-claude — Start the tldraw canvas and WebSocket relay.
+# tldraw-buddy — Start the tldraw canvas and WebSocket relay.
 #
 # Usage:
-#   tldraw-claude start    Start the widget + WS relay (opens browser)
-#   tldraw-claude stop     Stop background processes
-#   tldraw-claude status   Check if services are running
+#   tldraw-buddy start    Start the widget + WS relay (opens browser)
+#   tldraw-buddy stop     Stop background processes
+#   tldraw-buddy status   Check if services are running
 
 set -euo pipefail
 

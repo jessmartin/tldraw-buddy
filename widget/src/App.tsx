@@ -274,7 +274,7 @@ function App() {
 
 	return (
 		<div style={{ position: 'fixed', inset: 0 }}>
-			<Tldraw persistenceKey="tldraw-claude" onMount={(editor) => { editorRef.current = editor }} />
+			<Tldraw persistenceKey="tldraw-buddy" onMount={(editor) => { editorRef.current = editor }} />
 		</div>
 	)
 }
