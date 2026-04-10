@@ -4,37 +4,58 @@
 
 # tldraw-claude
 
-A Claude Code plugin that gives Claude a shared [tldraw](https://tldraw.dev) canvas.
+A shared [tldraw](https://tldraw.dev) canvas for AI agents. Draw diagrams, flowcharts, and sketches together with your AI — in real time.
 
 ## What does it do?
 
-You and Claude draw on the same canvas. You open a tldraw board in your browser, Claude gets a CLI to create shapes, connect them with arrows, and read what's on the canvas. You can both add and edit — it's a live, shared whiteboard.
+You and your AI agent draw on the same canvas. You open a tldraw board in your browser, the agent gets a CLI to create shapes, connect them with arrows, and read what's on the canvas. You can both add and edit — it's a live, shared whiteboard.
 
 Great for sketching architecture diagrams, flowcharts, database schemas, or just thinking visually together.
+
+Works with any AI agent that can run shell commands — Claude Code, Codex, Cowork, Cursor, or anything else with a terminal.
 
 ![tldraw-claude — drawing together on a shared canvas](docs/hero.png)
 
 ## How it works
 
 ```
-Claude Code ←Bash→ CLI ←WebSocket→ tldraw widget (browser)
+AI agent ←shell→ CLI ←WebSocket→ tldraw widget (browser)
 ```
 
-No MCP server needed. Claude calls the CLI via Bash, the CLI sends commands to the tldraw widget over WebSocket, and prints the result. Each command is stateless — connect, send, receive, exit.
+No MCP server needed. The agent calls the CLI via shell, the CLI sends commands to the tldraw widget over WebSocket, and prints the result. Each command is stateless — connect, send, receive, exit.
 
 ## Install
+
+### Option A: Paste this into your agent chat
+
+Copy this prompt and paste it into Claude Code, Codex, Cowork, or any AI agent with shell access:
+
+```
+Go to https://github.com/jessmartin/tldraw-claude and follow the manual
+install instructions to clone the repo, run setup, and configure the
+tldraw skill so I can draw on a shared canvas with you.
+```
+
+### Option B: Claude Code plugin
 
 ```bash
 claude plugin marketplace add jessmartin/tldraw-claude --scope user
 claude plugin install tldraw-claude@sociotechnica --scope user
 ```
 
-That's it. Claude Code will clone the repo, register the skill, and Claude learns how to use the canvas.
+### Option C: Manual install
+
+```bash
+git clone https://github.com/jessmartin/tldraw-claude.git ~/.tldraw-claude
+cd ~/.tldraw-claude
+./setup
+```
+
+For Claude Code, `./setup` registers the plugin automatically. For other agent harnesses, point your agent's skill/prompt config at `~/.tldraw-claude/skills/tldraw.md` — it teaches the agent how to use the canvas CLI.
 
 ### Prerequisites
 
 - [Bun](https://bun.sh) runtime
-- [Claude Code](https://claude.ai/code) CLI
 
 ## Usage
 
@@ -48,21 +69,13 @@ This starts the tldraw widget (http://localhost:5173) and a WebSocket relay (ws:
 
 ### 2. Draw together
 
-Ask Claude to draw something:
+Ask your agent to draw something:
 
 > "Draw a flowchart showing the request lifecycle in our app"
 
 > "Sketch the architecture of our microservices"
 
 > "Create a diagram of the database schema"
-
-## Updating
-
-```bash
-cd ~/.tldraw-claude
-git pull
-./setup
-```
 
 ## Persistence
 
@@ -76,6 +89,14 @@ tldraw-claude load diagram.tldr    # Restore canvas from file
 ```
 
 This means you can commit drawings to git, share `.tldr` files with teammates, or restore a canvas on a different machine.
+
+## Updating
+
+```bash
+cd ~/.tldraw-claude
+git pull
+./setup
+```
 
 ## CLI
 
