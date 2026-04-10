@@ -1,11 +1,16 @@
 {
   "name": "sociotechnica",
+  "metadata": {
+    "description": "tldraw-buddy — a shared tldraw canvas for AI agents"
+  },
+  "owner": {
+    "name": "Jess Martin"
+  },
   "plugins": [
     {
       "name": "tldraw-buddy",
-      "description": "Collaborative tldraw canvas for Claude Code",
-      "source": ".",
-      "category": "tools"
+      "description": "A shared tldraw canvas for AI agents. Draw diagrams, flowcharts, and sketches together in real time.",
+      "source": "./"
     }
   ]
 }
