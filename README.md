@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.png" alt="tldraw-claude logo" width="400">
+</p>
+
 # tldraw-claude
 
 A Claude Code plugin that gives Claude a shared [tldraw](https://tldraw.dev) canvas.
