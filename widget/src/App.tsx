@@ -1,4 +1,4 @@
-import { Editor, Tldraw, createShapeId } from 'tldraw'
+import { Editor, Tldraw, createShapeId, toRichText } from 'tldraw'
 import { useCallback, useEffect, useRef } from 'react'
 
 const WS_PORT = 4000
@@ -7,6 +7,19 @@ interface WsRequest {
 	type: string
 	requestId: string
 	[key: string]: unknown
+}
+
+/** Extract plain text from a TLRichText document structure */
+function plainTextFromRichText(rt: unknown): string | undefined {
+	if (!rt || typeof rt !== 'object') return undefined
+	const doc = rt as { content?: { content?: { text?: string }[] }[] }
+	try {
+		return doc.content
+			?.flatMap((block) => block.content?.map((node) => node.text) ?? [])
+			.join('') || undefined
+	} catch {
+		return undefined
+	}
 }
 
 function App() {
@@ -60,15 +73,15 @@ function App() {
 			props.geo = (data.geo as string) || 'rectangle'
 			props.w = w
 			props.h = h
-			if (data.text) props.text = data.text as string
+			if (data.text) props.richText = toRichText(data.text as string)
 			if (data.color) props.color = data.color as string
 			if (data.fill) props.fill = data.fill as string
 		} else if (shapeType === 'text') {
-			if (data.text) props.text = data.text as string
+			if (data.text) props.richText = toRichText(data.text as string)
 			if (data.color) props.color = data.color as string
 			props.size = (data.size as string) || 'm'
 		} else if (shapeType === 'note') {
-			if (data.text) props.text = data.text as string
+			if (data.text) props.richText = toRichText(data.text as string)
 			if (data.color) props.color = data.color as string
 			if (data.size) props.size = data.size as string
 		}
@@ -89,7 +102,7 @@ function App() {
 		if (data.y !== undefined) updates.y = data.y
 
 		const props: Record<string, unknown> = {}
-		if (data.text !== undefined) props.text = data.text
+		if (data.text !== undefined) props.richText = toRichText(data.text as string)
 		if (data.color !== undefined) props.color = data.color
 		if (data.fill !== undefined) props.fill = data.fill
 		if (data.w !== undefined) props.w = data.w
@@ -115,7 +128,6 @@ function App() {
 
 		const arrowId = createShapeId()
 
-		// Get bounds of both shapes to position the arrow
 		const fromBounds = editor.getShapePageBounds(fromId as any)
 		const toBounds = editor.getShapePageBounds(toId as any)
 		if (!fromBounds || !toBounds) {
@@ -123,10 +135,9 @@ function App() {
 		}
 
 		const arrowProps: Record<string, unknown> = {}
-		if (data.label) arrowProps.text = data.label as string
+		if (data.label) arrowProps.richText = toRichText(data.label as string)
 		if (data.color) arrowProps.color = data.color as string
 
-		// Create arrow shape positioned between the two shapes
 		editor.createShape({
 			id: arrowId,
 			type: 'arrow',
@@ -135,7 +146,6 @@ function App() {
 			props: arrowProps,
 		})
 
-		// Bind arrow terminals to shapes
 		editor.createBindings([
 			{
 				fromId: arrowId,
@@ -180,7 +190,9 @@ function App() {
 			}
 			const props = shape.props as Record<string, unknown>
 			if (props.geo) info.geo = props.geo
-			if (props.text) info.text = props.text
+			// Extract plain text from richText for snapshot readability
+			const text = plainTextFromRichText(props.richText)
+			if (text) info.text = text
 			if (props.color) info.color = props.color
 			return info
 		})
