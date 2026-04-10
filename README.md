@@ -14,7 +14,17 @@ Claude manipulates shapes on a tldraw canvas running in your browser. You both s
 
 ## Install
 
-### Option A: Claude Code plugin (recommended)
+### Option A: Paste this into Claude Code
+
+Copy and paste this prompt into Claude Code and it will set everything up for you:
+
+```
+Clone https://github.com/jessmartin/tldraw-claude to ~/.tldraw-claude, run ./setup,
+then add it to .mcp.json as an MCP server (command: bun, args: ~/.tldraw-claude/src/mcp-server.ts).
+Start the canvas with ~/.tldraw-claude/bin/tldraw-claude start.
+```
+
+### Option B: Claude Code plugin
 
 Install directly from GitHub as a Claude Code plugin:
 
@@ -25,7 +35,7 @@ claude plugin install tldraw-claude@sociotechnica --scope user
 
 This registers the plugin marketplace from the GitHub repo and installs the plugin. Use `--scope project` instead to install for a single project.
 
-### Option B: Git clone + MCP config
+### Option C: Git clone + MCP config
 
 ```bash
 git clone https://github.com/jessmartin/tldraw-claude.git ~/.tldraw-claude
