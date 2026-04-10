@@ -19,7 +19,7 @@ Claude manipulates shapes on a tldraw canvas running in your browser. You both s
 Install directly from GitHub as a Claude Code plugin:
 
 ```bash
-claude plugin marketplace add sociotechnica-org/tldraw-claude --scope user
+claude plugin marketplace add jessmartin/tldraw-claude --scope user
 claude plugin install tldraw-claude@sociotechnica --scope user
 ```
 
@@ -28,7 +28,7 @@ This registers the plugin marketplace from the GitHub repo and installs the plug
 ### Option B: Git clone + MCP config
 
 ```bash
-git clone https://github.com/sociotechnica-org/tldraw-claude.git ~/.tldraw-claude
+git clone https://github.com/jessmartin/tldraw-claude.git ~/.tldraw-claude
 cd ~/.tldraw-claude
 ./setup
 ```
